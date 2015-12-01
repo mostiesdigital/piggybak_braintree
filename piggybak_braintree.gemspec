@@ -1,23 +1,20 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'piggybak_braintree/version'
+$:.push File.expand_path("../lib", __FILE__)
 
-Gem::Specification.new do |spec|
-  spec.name          = "piggybak_braintree"
-  spec.version       = PiggybakBraintree::VERSION
-  spec.authors       = ["Toms Strubergs"]
-  spec.email         = ["toms.strubergs@kodex.lv"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
-  spec.license       = "MIT"
+# Maintain your gem's version:
+require "piggybak_braintree/version"
 
-  spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
-  spec.require_paths = ["lib"]
+# Describe your gem and declare its dependencies:
+Gem::Specification.new do |s|
+  s.name        = "piggybak_braintree"
+  s.version     = PiggybakBraintree::VERSION
+  s.authors     = ["Toms Strubergs"]
+  s.email       = ["toms.strubergs@gmail.com"]
+  s.homepage    = "https://github.com/cardiner/piggybak_braintree"
+  s.summary     = "Piggybak Braintree"
+  s.description = "Integration of Braintree payment gateway for use with Piggybak"
 
-  spec.add_development_dependency "bundler", "~> 1.7"
-  spec.add_development_dependency "rake", "~> 10.0"
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.test_files = Dir["test/**/*"]
+
+  s.add_dependency 'breaintree', '2.55.0'
 end

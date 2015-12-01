@@ -1,0 +1,28 @@
+<script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+<h1>Braintree transaction</h1>
+<%= f.fields_for :line_items, @order.line_items.detect { |li| li.line_item_type == "payment" } do |line_item_f| %>
+    <%= line_item_f.hidden_field :line_item_type, { :value => "payment" } %>
+    <%= line_item_f.fields_for :payment do |payment| %>
+        <div class="item">
+          <%= payment.label :number %>
+          <%= tag :input, {:type => :text, :class => "card-number required", :id => 'myid', data: {'braintree-name' => 'number'}, :name => 'payment_number'}%>
+        </div>
+
+        <div class="item">
+          <%= payment.label :verification_value %>
+          <%= tag :input, {:type => :text, :class => "card-cvc required", data: {'braintree-name' => 'cvv'}, :name => 'cvv'}%>
+        </div>
+
+        <div class="item">
+          <%= payment.label :month %>
+          <%= content_tag :select, options_for_select(1.upto(12).to_a), {:class=> 'card-expiry-month', data: {'braintree-name' => 'expiration_month'}}%> /
+          <%= content_tag :select, options_for_select(Time.now.year.upto(Time.now.year + 10).to_a), {:class=> 'card-expiry-year', data: {'braintree-name' => 'expiration_year'}}%>
+        </div>
+    <% end -%>
+<% end -%>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        braintree_setup();
+    });
+</script>
