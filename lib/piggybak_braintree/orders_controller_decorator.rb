@@ -1,5 +1,5 @@
 module PiggybakBraintree
-  module PiggybakOrdersControllerDecorator
+  module OrdersControllerDecorator
     extend ActiveSupport::Concern
 
     included do

@@ -7,7 +7,7 @@ module PiggybakBraintree
 
     config.to_prepare do
       Piggybak::Payment.send(:include, ::PiggybakBraintree::PaymentDecorator)
-      Piggybak::OrdersController.send(:include, ::PiggybakBraintree::PiggybakOrdersControllerDecorator)
+      Piggybak::OrdersController.send(:include, ::PiggybakBraintree::OrdersControllerDecorator)
     end
 
     initializer "piggybak_realtime_shipping.add_calculators" do
