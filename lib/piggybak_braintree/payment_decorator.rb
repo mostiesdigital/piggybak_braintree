@@ -4,17 +4,8 @@ module PiggybakBraintree
 
     included do
       attr_accessor :payment_method_nonce
-      attr_accessible :payment_method_nonce
 
       validates_presence_of :payment_method_nonce, :on => :create
-
-      [:month, :year, :payment_method_id].each do |field|
-        _validators.reject!{ |key, _| key == field }
-
-        _validate_callbacks.reject! do |callback|
-          callback.raw_filter.attributes == [field]
-        end
-      end
 
       def credit_card
         self.payment_method_nonce
