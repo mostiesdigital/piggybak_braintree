@@ -13,8 +13,8 @@ Gem::Specification.new do |s|
   s.summary     = "Piggybak Braintree"
   s.description = "Integration of Braintree payment gateway for use with Piggybak"
 
-  s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib}/**/*"] + ["Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency 'breaintree', '2.55.0'
+  s.add_dependency 'braintree', '2.55.0'
 end
