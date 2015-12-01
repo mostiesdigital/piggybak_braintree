@@ -1,0 +1,17 @@
+PATH
+  remote: .
+  specs:
+    piggybak_braintree (0.0.1)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rake (10.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.7)
+  piggybak_braintree!
+  rake (~> 10.0)
