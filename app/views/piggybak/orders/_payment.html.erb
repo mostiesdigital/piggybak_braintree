@@ -24,7 +24,7 @@
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
         <% if @client_token %>
-            braintree.setup("<%= @client_token %>", "custom", {id: "new_piggybak_order"});
+            braintree.setup("<%= @client_token %>", "custom", {id: "new_order"});
         <% end %>
     });
 </script>
