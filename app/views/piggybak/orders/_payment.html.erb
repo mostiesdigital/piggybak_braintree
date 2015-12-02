@@ -1,4 +1,5 @@
 <script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+<%= javascript_include_tag 'payments' %>
 <h1>Braintree transaction</h1>
 <%= f.fields_for :line_items, @order.line_items.detect { |li| li.line_item_type == "payment" } do |line_item_f| %>
     <%= line_item_f.hidden_field :line_item_type, { :value => "payment" } %>
