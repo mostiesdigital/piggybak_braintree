@@ -16,7 +16,7 @@ module PiggybakBraintree
 
         ::PiggybakBraintree::PaymentCalculator::Braintree.new(self.payment_method).configure
 
-        raise
+        binding.pry
         result = Braintree::Transaction.sale(
             :amount => (order.total_due * 100).to_i,
             :payment_method_nonce => self.credit_card
