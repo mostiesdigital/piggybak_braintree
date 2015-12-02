@@ -12,13 +12,9 @@ module PiggybakBraintree
       end
 
       def process(order)
-        return true if !self.new_record?
+        return true unless self.new_record?
 
-        calculator = ::PiggybakBraintree::PaymentCalculator::Braintree.new(self.payment_method)
-        Braintree::Configuration.environment = calculator.gateway_mode
-        Braintree::Configuration.merchant_id = calculator.merchant_id
-        Braintree::Configuration.public_key  = calculator.public_key
-        Braintree::Configuration.private_key = calculator.private_key
+        ::PiggybakBraintree::PaymentCalculator::Braintree.new(self.payment_method).configure
 
         raise
         result = Braintree::Transaction.sale(
