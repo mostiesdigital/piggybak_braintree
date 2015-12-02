@@ -10,7 +10,6 @@ module PiggybakBraintree
         if request.post?
           logger = Logger.new("#{Rails.root}/#{Piggybak.config.logging_file}")
 
-          begin
             ActiveRecord::Base.transaction do
               @order = Piggybak::Order.new(orders_params)
               @order.create_payment_shipment
@@ -54,15 +53,15 @@ module PiggybakBraintree
                 raise Exception, @order.errors.full_messages
               end
             end
-          rescue Exception => e
-            puts ":::::::::::::::::#{e.inspect}"
-            if Piggybak.config.logging
-              logger.warn "#{request.remote_ip}:#{Time.now.strftime("%Y-%m-%d %H:%M")} Order exception: #{e.inspect}"
-            end
-            if @order.errors.empty?
-              @order.errors[:base] << "Your order could not go through. Please try again."
-            end
-          end
+          # rescue Exception => e
+          #   puts ":::::::::::::::::#{e.inspect}"
+          #   if Piggybak.config.logging
+          #     logger.warn "#{request.remote_ip}:#{Time.now.strftime("%Y-%m-%d %H:%M")} Order exception: #{e.inspect}"
+          #   end
+          #   if @order.errors.empty?
+          #     @order.errors[:base] << "Your order could not go through. Please try again."
+          #   end
+          # end
         else
           @order = Piggybak::Order.new
           @order.create_payment_shipment
