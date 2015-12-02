@@ -6,7 +6,7 @@ module PiggybakBraintree
       attr_accessor :payment_method_nonce
 
       validates_presence_of :payment_method_nonce, :on => :create
-      
+
       def process(order)
         return true unless self.new_record?
 
