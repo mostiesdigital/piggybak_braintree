@@ -1,4 +1,5 @@
 require 'piggybak_braintree/payment_decorator'
+require 'piggybak_braintree/orders_controller_decorator'
 
 module PiggybakBraintree
   class Engine < ::Rails::Engine
