@@ -3,8 +3,8 @@ module PiggybakBraintree
     KEYS = ['private_key', 'public_key', 'merchant_id']
     KLASS = ::Braintree
 
-    def initialize(payment_method)
-      @payment_method = payment_method
+    def initialize(payment_method = nil)
+      @payment_method = payment_method || ::Piggybak::PaymentMethod.find_by(klass: '::PiggybakBraintree::PaymentCalculator::Braintree')
     end
 
     def configure
