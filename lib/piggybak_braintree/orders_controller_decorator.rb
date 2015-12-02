@@ -55,6 +55,7 @@ module PiggybakBraintree
               end
             end
           rescue Exception => e
+            binding.pry
             if Piggybak.config.logging
               logger.warn "#{request.remote_ip}:#{Time.now.strftime("%Y-%m-%d %H:%M")} Order exception: #{e.inspect}"
             end
