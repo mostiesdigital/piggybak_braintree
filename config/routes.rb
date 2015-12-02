@@ -1,2 +1,2 @@
-PiggybakStripe::Engine.routes.draw do
+PiggybakBraintree::Engine.routes.draw do
 end
