@@ -10,6 +10,7 @@ module PiggybakBraintree
         if request.post?
           logger = Logger.new("#{Rails.root}/#{Piggybak.config.logging_file}")
 
+          begin
             ActiveRecord::Base.transaction do
               @order = Piggybak::Order.new(orders_params)
               @order.create_payment_shipment
@@ -53,15 +54,15 @@ module PiggybakBraintree
                 raise Exception, @order.errors.full_messages
               end
             end
-          # rescue Exception => e
-          #   puts ":::::::::::::::::#{e.inspect}"
-          #   if Piggybak.config.logging
-          #     logger.warn "#{request.remote_ip}:#{Time.now.strftime("%Y-%m-%d %H:%M")} Order exception: #{e.inspect}"
-          #   end
-          #   if @order.errors.empty?
-          #     @order.errors[:base] << "Your order could not go through. Please try again."
-          #   end
-          # end
+          rescue Exception => e
+            puts ":::::::::::::::::#{e.inspect}"
+            if Piggybak.config.logging
+              logger.warn "#{request.remote_ip}:#{Time.now.strftime("%Y-%m-%d %H:%M")} Order exception: #{e.inspect}"
+            end
+            if @order.errors.empty?
+              @order.errors[:base] << "Your order could not go through. Please try again."
+            end
+          end
         else
           @order = Piggybak::Order.new
           @order.create_payment_shipment
@@ -70,6 +71,19 @@ module PiggybakBraintree
           payment_method.configure
           @client_token = payment_method.client_token
         end
+      end
+
+      private
+
+      def orders_params
+        nested_attributes = [shipment_attributes: [:shipping_method_id],
+                             payment_attributes: [:number, :verification_value, :month, :year, :payment_method_nonce]]
+        line_item_attributes = [:sellable_id, :price, :unit_price, :description, :quantity, :line_item_type, nested_attributes]
+        params.require(:order).permit(:user_id, :email, :phone, :ip_address,
+                                      billing_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id],
+                                      shipping_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id, :copy_from_billing],
+                                      line_items_attributes: line_item_attributes)
+
       end
     end
   end

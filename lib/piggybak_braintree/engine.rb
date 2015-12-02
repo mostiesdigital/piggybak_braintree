@@ -20,7 +20,6 @@ module PiggybakBraintree
         config.default_country = "LV"
         # Override the activemerchant billing mode
         config.activemerchant_mode = :sandbox
-        config.additional_line_item_attributes = [:payment_method_nonce]
       end
     end
   end
