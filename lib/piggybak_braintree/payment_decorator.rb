@@ -9,10 +9,6 @@ module PiggybakBraintree
 
       [:month, :year, :number, :verification_value].each do |field|
         _validators.reject!{ |key, _| key == field }
-
-        _validate_callbacks.reject! do |callback|
-          callback.raw_filter.attributes == [field]
-        end
       end
 
       def process(order)
