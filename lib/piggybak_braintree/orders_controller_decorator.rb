@@ -89,6 +89,7 @@ module PiggybakBraintree
                                       billing_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id],
                                       shipping_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id, :copy_from_billing],
                                       line_items_attributes: line_item_attributes)
+        params[:payment_method_nonce] = 'fake-valid-visa-nonce' if Rails.env.development?
       end
     end
   end
