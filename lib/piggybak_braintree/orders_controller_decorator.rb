@@ -78,7 +78,7 @@ module PiggybakBraintree
       private
 
       def check_if_logged_in
-        redirect_to new_user_session_path unless current_user
+        redirect_to '/users/sign_in' unless current_user
       end
 
       def orders_params
