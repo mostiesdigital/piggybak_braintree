@@ -7,7 +7,7 @@ module PiggybakBraintree
 
       validates :payment_method_nonce, presence: true
 
-      [:month, :year].each do |field|
+      [:month, :year, :number, :verification_value].each do |field|
         _validators.reject!{ |key, _| key == field }
 
         _validate_callbacks.reject! do |callback|
