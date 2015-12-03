@@ -71,7 +71,7 @@ module PiggybakBraintree
           @order.initialize_user(current_user)
           payment_method = ::PiggybakBraintree::PaymentCalculator::Braintree.new
           payment_method.configure
-          @client_token = payment_method.client_token(current_user.id)
+          @client_token = payment_method.client_token(current_user)
         end
       end
 

@@ -14,8 +14,18 @@ module PiggybakBraintree
       Braintree::Configuration.private_key = private_key
     end
 
-    def client_token(user_id)
-      Braintree::ClientToken.generate(:customer_id => user_id)
+    def client_token(user)
+      customer_id =
+          if user.customer_id
+            user.customer_id
+          else
+            results = Braintree::Customer.create(
+                :email => user.email
+            )
+            user.update_column(:customer_id, results.customer.id)
+            user.customer_id
+          end
+      Braintree::ClientToken.generate(:customer_id => customer_id)
     end
 
     def gateway_mode
