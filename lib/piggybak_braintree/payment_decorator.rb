@@ -9,6 +9,9 @@ module PiggybakBraintree
 
       [:month, :year, :number, :verification_value].each do |field|
         _validators.reject!{ |key, _| key == field }
+        _validate_callbacks.each do |callback|
+          callback.raw_filter.attributes.delete field if callback.raw_filter.is_a?(ActiveModel::Validations::PresenceValidator)
+        end
       end
 
       def process(order)
