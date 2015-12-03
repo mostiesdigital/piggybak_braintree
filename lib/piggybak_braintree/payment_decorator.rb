@@ -6,8 +6,14 @@ module PiggybakBraintree
       attr_accessor :payment_method_nonce
 
       validates :payment_method_nonce, presence: true
-      validates :month, presence: true, unless: :payment_method_nonce
-      validates :year, presence: true, unless: :payment_method_nonce
+
+      [:month, :year].each do |field|
+        _validators.reject!{ |key, _| key == field }
+
+        _validate_callbacks.reject! do |callback|
+          callback.raw_filter.attributes == [field]
+        end
+      end
 
       def process(order)
         return true unless self.new_record?
