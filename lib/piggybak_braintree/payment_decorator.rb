@@ -8,9 +8,9 @@ module PiggybakBraintree
       validates :payment_method_nonce, presence: true
 
       [:month, :year, :number, :verification_value, :payment_method_id].each do |field|
-        _validators.reject!{ |key, _| puts key; key == field }
+        _validators.reject!{ |key, _| key == field }
         _validate_callbacks.each do |callback|
-          callback.raw_filter.attributes.delete field if callback.raw_filter.is_a?(ActiveModel::Validations::PresenceValidator)
+          callback.raw_filter.attributes.delete field if callback.filter.attributes.include?(field)
         end
       end
 
