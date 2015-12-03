@@ -16,6 +16,15 @@ module PiggybakBraintree
             :amount => (order.total_due * 100).to_i,
             :payment_method_nonce => self.payment_method_nonce
         )
+        if result.success?
+          self.attributes = {
+              transaction_id: 123,
+              masked_number: self.number.mask_cc_number
+          }
+        else
+          self.errors.add :payment_method_id, result.message
+          return false
+        end
       end
     end
   end
