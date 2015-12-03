@@ -5,7 +5,9 @@ module PiggybakBraintree
     included do
       attr_accessor :payment_method_nonce
 
-      validates_presence_of :payment_method_nonce, :on => :create
+      validates :payment_method_nonce, presence: true
+      validates :month, presence: true, unless: :payment_method_nonce
+      validates :year, presence: true, unless: :payment_method_nonce
 
       def process(order)
         return true unless self.new_record?

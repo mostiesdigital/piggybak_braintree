@@ -3,6 +3,8 @@ module PiggybakBraintree
     extend ActiveSupport::Concern
 
     included do
+      before_filter :check_if_logged_in, only: :submit
+
       def submit
         response.headers['Cache-Control'] = 'no-cache'
         @cart = Piggybak::Cart.new(request.cookies["cart"])
@@ -69,11 +71,15 @@ module PiggybakBraintree
           @order.initialize_user(current_user)
           payment_method = ::PiggybakBraintree::PaymentCalculator::Braintree.new
           payment_method.configure
-          @client_token = payment_method.client_token
+          @client_token = payment_method.client_token(current_user.id)
         end
       end
 
       private
+
+      def check_if_logged_in
+        redirect_to new_user_session_path unless current_user
+      end
 
       def orders_params
         nested_attributes = [shipment_attributes: [:shipping_method_id],
@@ -83,7 +89,6 @@ module PiggybakBraintree
                                       billing_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id],
                                       shipping_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id, :copy_from_billing],
                                       line_items_attributes: line_item_attributes)
-
       end
     end
   end
