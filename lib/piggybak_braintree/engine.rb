@@ -12,24 +12,6 @@ module PiggybakBraintree
       Piggybak::Order.send(:include, ::PiggybakBraintree::OrderDecorator)
       Piggybak::OrdersController.send(:include, ::PiggybakBraintree::OrdersControllerDecorator)
     end
-    
-    RailsAdmin.config do |config|
-      config.model Piggybak::Sellable do
-        label "Sellable"
-        visible false
-        edit do
-          field :sku
-          field :description
-          field :price
-          field :active
-          field :quantity
-          field :days
-          field :unlimited_inventory do
-            help "If true, backorders on this variant will be allowed, regardless of quantity on hand."
-          end
-        end
-      end
-    end
 
     initializer "piggybak_realtime_shipping.add_calculators" do
       Piggybak.config do |config|
