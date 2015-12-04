@@ -22,6 +22,22 @@ module PiggybakBraintree
         config.default_country = "LV"
         # Override the activemerchant billing mode
         config.activemerchant_mode = :sandbox
+
+        config.model Piggybak::Sellable do
+          label "Sellable"
+          visible false
+          edit do
+            field :sku
+            field :description
+            field :price
+            field :active
+            field :quantity
+            field :days
+            field :unlimited_inventory do
+              help "If true, backorders on this variant will be allowed, regardless of quantity on hand."
+            end
+          end
+        end
       end
     end
   end
