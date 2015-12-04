@@ -1,4 +1,5 @@
 require 'piggybak_braintree/payment_decorator'
+require 'piggybak_braintree/order_decorator'
 require 'piggybak_braintree/orders_controller_decorator'
 
 module PiggybakBraintree
@@ -8,6 +9,7 @@ module PiggybakBraintree
 
     config.to_prepare do
       Piggybak::Payment.send(:include, ::PiggybakBraintree::PaymentDecorator)
+      Piggybak::Order.send(:include, ::PiggybakBraintree::OrderDecorator)
       Piggybak::OrdersController.send(:include, ::PiggybakBraintree::OrdersControllerDecorator)
     end
 
