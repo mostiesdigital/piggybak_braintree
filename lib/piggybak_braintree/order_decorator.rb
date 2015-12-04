@@ -1,5 +1,5 @@
 module PiggybakBraintree
-  module PaymentDecorator
+  module OrderDecorator
     extend ActiveSupport::Concern
 
     included do
