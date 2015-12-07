@@ -85,6 +85,7 @@ module PiggybakBraintree
         nested_attributes = [shipment_attributes: [:shipping_method_id],
                              payment_attributes: [:number, :verification_value, :month, :year, :payment_method_nonce]].first.merge(Piggybak.config.additional_line_item_attributes)
         line_item_attributes = [:sellable_id, :price, :unit_price, :description, :quantity, :start_date, :line_item_type, nested_attributes]
+        puts params
         params[:order][:line_items_attributes]['1'][:payment_attributes][:payment_method_nonce] =
             if Rails.env.development?
               'fake-valid-visa-nonce'
