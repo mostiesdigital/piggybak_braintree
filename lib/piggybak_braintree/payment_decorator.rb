@@ -23,10 +23,10 @@ module PiggybakBraintree
             :amount => (order.total_due * 100).to_i,
             :payment_method_nonce => self.payment_method_nonce
         )
-        puts result.inspect
         if result.success?
           self.attributes = {
-              transaction_id: 123,
+              transaction_id: results.id,
+              masked_number: results.credit_card_details.last_4
           }
         else
           self.errors.add :payment_method_id, result.errors
