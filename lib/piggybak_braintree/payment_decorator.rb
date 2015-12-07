@@ -23,6 +23,7 @@ module PiggybakBraintree
             :amount => (order.total_due * 100).to_i,
             :payment_method_nonce => self.payment_method_nonce
         )
+        puts result.inspect
         if result.success?
           self.attributes = {
               transaction_id: result.id,
