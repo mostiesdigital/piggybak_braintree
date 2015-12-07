@@ -25,8 +25,8 @@ module PiggybakBraintree
         )
         if result.success?
           self.attributes = {
-              transaction_id: results.id,
-              masked_number: results.credit_card_details.last_4
+              transaction_id: result.id,
+              masked_number: result.credit_card_details.last_4
           }
         else
           self.errors.add :payment_method_id, result.errors
