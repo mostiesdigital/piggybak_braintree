@@ -85,16 +85,16 @@ module PiggybakBraintree
         nested_attributes = [shipment_attributes: [:shipping_method_id],
                              payment_attributes: [:number, :verification_value, :month, :year, :payment_method_nonce]].first.merge(Piggybak.config.additional_line_item_attributes)
         line_item_attributes = [:sellable_id, :price, :unit_price, :description, :quantity, :start_date, :line_item_type, nested_attributes]
-        params.require(:order).permit(:user_id, :email, :phone, :ip_address,
-                                      billing_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id],
-                                      shipping_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id, :copy_from_billing],
-                                      line_items_attributes: line_item_attributes)
-        params[:order][:line_items_attributes][:payment_attributes][:payment_method_nonce] =
+        params[:order][:line_items_attributes]['1'][:payment_attributes][:payment_method_nonce] =
             if Rails.env.development?
               'fake-valid-visa-nonce'
             else
               params[:payment_method_nonce]
             end
+        params.require(:order).permit(:user_id, :email, :phone, :ip_address,
+                                      billing_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id],
+                                      shipping_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id, :copy_from_billing],
+                                      line_items_attributes: line_item_attributes)
       end
     end
   end
