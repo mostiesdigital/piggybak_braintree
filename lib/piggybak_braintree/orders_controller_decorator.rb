@@ -87,10 +87,10 @@ module PiggybakBraintree
         line_item_attributes = [:sellable_id, :price, :unit_price, :description, :quantity, :start_date, :line_item_type, nested_attributes]
         params[:order][:line_items_attributes]['1'][:payment_attributes] = {}
         params[:order][:line_items_attributes]['1'][:payment_attributes][:payment_method_nonce] =
-            if Rails.env.development?
-              'fake-valid-visa-nonce'
-            else
+            if Rails.env.production? && params[:payment_method_nonce].present?
               params[:payment_method_nonce]
+            else
+              'fake-valid-visa-nonce'
             end
         params.require(:order).permit(:user_id, :email, :phone, :ip_address,
                                       billing_address_attributes: [:firstname, :lastname, :address1, :location, :address2, :city, :state_id, :zip, :country_id],
