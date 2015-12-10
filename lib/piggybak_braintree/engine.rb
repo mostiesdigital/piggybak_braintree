@@ -13,20 +13,12 @@ module PiggybakBraintree
       Piggybak::OrdersController.send(:include, ::PiggybakBraintree::OrdersControllerDecorator)
     end
 
-    initializer "piggybak_realtime_shipping.add_calculators" do
-      Piggybak.config do |config|
-        #Ensures that stripe is the only calculator because Piggybak
-        #only supports one active calculator
-        config.payment_calculators = ["::PiggybakBraintree::PaymentCalculator::Braintree"]
-        # Override the default country
-        config.default_country = "LV"
-        # Override the activemerchant billing mode
-        config.activemerchant_mode = :sandbox
-
+    initializer "piggybak.rails_admin_config" do |config|
+      RailsAdmin.config do |config|
         config.model Piggybak::Order do
           label "Order"
-          navigation_label "Orderssss"
-          weight 1
+          navigation_label "Orders"
+          weight -1
           object_label_method :admin_label
 
           show do
@@ -125,6 +117,18 @@ module PiggybakBraintree
             end
           end
         end
+      end
+    end
+
+    initializer "piggybak_realtime_shipping.add_calculators" do
+      Piggybak.config do |config|
+        #Ensures that stripe is the only calculator because Piggybak
+        #only supports one active calculator
+        config.payment_calculators = ["::PiggybakBraintree::PaymentCalculator::Braintree"]
+        # Override the default country
+        config.default_country = "LV"
+        # Override the activemerchant billing mode
+        config.activemerchant_mode = :sandbox
       end
     end
   end
